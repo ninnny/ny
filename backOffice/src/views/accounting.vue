@@ -4,11 +4,17 @@
     <span>자금 이름</span><input type="text" v-model="save.title"></input>
     <span>자금</span><input type="number" v-model="save.money"></input>
     <v-btn v-on:click="click">입금</v-btn>
+    <inputMoneyModal/>
   </div>
 </template>
 <script>
+import inputMoneyModal from '../components/inputMoneyModal';
+
 export default {
     name: 'accounting',
+    components: {
+      inputMoneyModal,
+    },
     data: () => ({
         save: {
             title: '',
