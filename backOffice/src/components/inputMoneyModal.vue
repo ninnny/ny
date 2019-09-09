@@ -7,10 +7,6 @@
       <v-card>
         <v-card-title>
           <span class="headline">User Profile</span>
-          <test></test>
-          <test></test>
-          <test></test>
-          <kkk></kkk>
         </v-card-title>
         <v-card-text>
           <v-container>
@@ -18,33 +14,27 @@
               <v-col cols="12" sm="6" md="6">
                 <v-text-field label="자금 출처" required></v-text-field>
               </v-col>
-              
+        
             </v-row>
             <v-row>
               <v-col cols="12" sm="6" md="6">
-                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
+                <v-text-field label="항목" hint="example of helper text only on focus"></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="6">
-                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col cols="12" sm="6" md="6">
-                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
-              </v-col>
-              <v-col cols="12" sm="6" md="6">
-                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
+                <!-- <v-text-field type="number" class="inputPrice" label="금액" hint="example of helper text only on focus"></v-text-field> -->
+                <currency idx=0  languageCode="ko" prefix="￦" />
               </v-col>
             </v-row>
             <v-row>
               <v-col cols="12" sm="6" md="6">
-                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
+                <v-text-field label="항목" hint="example of helper text only on focus"></v-text-field>
               </v-col>
               <v-col cols="12" sm="6" md="6">
-                <v-text-field label="Legal middle name" hint="example of helper text only on focus"></v-text-field>
+                <!-- <v-text-field type="number" class="inputPrice" label="금액" hint="example of helper text only on focus"></v-text-field> -->
+                <currency idx=1  languageCode="ko" prefix="￦" />
               </v-col>
             </v-row>
-            <v-row>
+            <!-- <v-row>
 
               <v-col cols="12">
                 <v-text-field label="Email*" required></v-text-field>
@@ -66,9 +56,15 @@
                   multiple
                 ></v-autocomplete>
               </v-col>
+            </v-row> -->
+            <v-row>
+              <v-col cols="12" sm="6" md="6"  >
+                <currency value=100 languageCode="ko" prefix="total" />
+              </v-col>
             </v-row>
           </v-container>
           <small>*indicates required field</small>
+          <small>{{ totalmoney }}</small>
         </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
@@ -83,25 +79,40 @@
 
 <script>
 
-import test from "./test";
-
-var qwerd = {
-    name : "qwerd",
-    template : '<span>lllllllll</span>'
-}
+import currency from "./currency";
 
 export default {
   name: 'inputMoneyModal',
   components : {
-      test,
-      kkk : qwerd
+    currency
   },
-    beforeCreate : function (){
-        console.log(this);
-    },
+  beforeCreate : function (){
+      // console.log(this);
+  },
   data: () => ({
       dialog: false,
-    })
+      money : 100
+    }),
+  created : function () {
+    // setInterval(() => {
+    //   console.log(this.$store.state.money[0]);
+    // }, 1000);
+  },
+  computed :  {
+    totalmoney(){
+      return this.$store.state.money[0];
+    }
+  }
 }
 
 </script>
+<style scoped>
+  .inputPrice input[type='number'] {
+    -moz-appearance:textfield;
+  }
+  .inputPrice input::-webkit-outer-spin-button,
+  .inputPrice input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+  }
+
+</style>
