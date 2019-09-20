@@ -6,18 +6,13 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     money : [
-      100,
-      200,
-      300
+      0,
+      0
     ]
   },
   mutations: {
-    setServiceData(state, serviceData) {
-      state.money.forEach((money, index) => {
-        if (service.id === serviceData.id) {
-          Vue.set(state.money, index, serviceData);
-        }
-      });
+    setMoney(state, obj) {
+      Vue.set(state.money, obj.idx, obj.value);
     },
   },
   actions: {

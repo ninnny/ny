@@ -59,12 +59,10 @@
             </v-row> -->
             <v-row>
               <v-col cols="12" sm="6" md="6"  >
-                <currency value=100 languageCode="ko" prefix="total" />
+                <currency :value = totalmoney  languageCode="ko" prefix="total" />
               </v-col>
             </v-row>
           </v-container>
-          <small>*indicates required field</small>
-          <small>{{ totalmoney }}</small>
         </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
@@ -100,7 +98,11 @@ export default {
   },
   computed :  {
     totalmoney(){
-      return this.$store.state.money[0];
+      let total=0;
+      for(let i = 0; i< this.$store.state.money.length; i++){
+        total += this.$store.state.money[i];
+      }
+      return total;
     }
   }
 }

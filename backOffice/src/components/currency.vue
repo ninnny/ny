@@ -52,7 +52,7 @@ export default {
   },
   data () {
     return {
-      numberValue: parseInt(this.$store.state.money[this.idx]),
+      numberValue: parseInt(this.$store.state.money[this.idx]) >= 0 ? parseInt(this.$store.state.money[this.idx]) : this.value ,
       model: this.value,
       isMasked: true,
       thousandsSeparatorRegex: new RegExp(`\\${this.thousandsSeparator}`, 'g'),
@@ -102,9 +102,7 @@ export default {
   },
   watch: {
     numberValue (v) {
-      // this.$emit('input', v);
-      this.$store.state.money[this.idx] = v;
-      this.$store.state.money.$set(this.idx,v);
+      this.$store.commit('setMoney', { idx:this.idx ,value : v});
     },
     value (v) {
       this.numberValue = v
