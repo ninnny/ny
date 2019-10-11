@@ -85,13 +85,19 @@ export default {
     currency
   },
   beforeCreate : function (){
-      // console.log(this);
+      console.log(this.$database);
+      this.$database.ref('users/1').set({
+        username: "name",
+        email: "email",
+        profile_picture : "imageUrl"
+      });
   },
   data: () => ({
       dialog: false,
       money : 100
     }),
   created : function () {
+    // console.log(this)
     // setInterval(() => {
     //   console.log(this.$store.state.money[0]);
     // }, 1000);

@@ -1,69 +1,92 @@
 <template>
   <div class="about">
-    <inputMoneyModal class="mb-5 mt-5"/>
-    <div class="box d-flex">
-      
-      <v-card
-        max-width="344"
-        class="mx-auto justify-space-between"
-      >
-        <v-card-title>이름 <input type="text" v-model="save.title"></input></v-card-title>
-        <v-card-text>자금<input type="number" v-model="save.money"></input></v-card-text>
-
-      </v-card>
-      <v-card
-        max-width="344"
-        class="mx-auto justify-space-between"
-      >
-        <v-card-title>이름 <input type="text" v-model="save.title"></input></v-card-title>
-        <v-card-text>자금<input type="number" v-model="save.money"></input></v-card-text>
-      </v-card>
-      <v-card
-        max-width="344"
-        class="mx-auto justify-space-between"
-      >
-        <v-card-title>이름 <input type="text" v-model="save.title"></input></v-card-title>
-        <v-card-text>자금<input type="number" v-model="save.money"></input></v-card-text>
-
-      </v-card>
-
-     
-
-
-                   
-    </div>
-
-     <!-- <v-data-table
-        :headers="headers"
-        :items="desserts"
-        :items-per-page="5"
-        class="elevation-1"      
-      ></v-data-table> -->
-    
-      <!-- <v-card
-        v-for="j in justify"
-        :key="j"
-        :class="`d-flex justify-${j} mb-6`"
-        color="grey lighten-2"
-        flat 
-        tile
+    <inputMoneyModal class="mb-5 mt-5" justify-end/>
+     <!-- <div
+        class="d-flex justify mb-6"
       >
         <v-card
-            v-for="n in 3"
+            v-for="n in 4"
             :key="n"
-            class="pa-2"
+            class="mx-auto justify-space-between "
+            max-width="344"
+            min-width="200"
             outlined
             tile
         > 
-        Flex item
+        <v-card-title> 이름 </v-card-title>
+        <v-card-text> 자금</v-card-text>
+
         </v-card>
-      </v-card>   -->
-    <!-- <h1>{{ title }}</h1> -->
-    <!-- <span>자금 이름</span><input type="text" v-model="save.title"></input>
-    <span>자금</span><input type="number" v-model="save.money"></input>
-    <v-btn v-on:click="click">입금</v-btn>
-    <inputMoneyModal/> -->
+      </div> -->
+      <div class="display-1">total</div>
+      <v-sheet
+        class="mx-auto"
+      >
+        <v-slide-group
+          v-model="model"
+          class="pa-4"
+          show-arrows
+        >
+          <v-slide-item
+            v-for="n in 15"
+            :key="n"
+            v-slot:default="{ active, toggle }"
+          >
+            <v-card
+              :color="active ? 'primary' : 'white '"
+              class="ma-4"
+              width="200"
+              @click="toggle"
+
+            >
+              <v-card-title> 이름 </v-card-title>
+              <v-card-text> 자금 </v-card-text>
+
+              <!-- <v-row
+                class="fill-height"
+                align="center"
+                justify="center"
+              >
+                <v-scale-transition>
+                  <v-icon
+                    v-if="active"
+                    color="white"
+                    size="48"
+                    v-text="'mdi-close-circle-outline'"
+                  ></v-icon>
+                </v-scale-transition>
+              </v-row> -->
+            </v-card>
+          </v-slide-item>
+        </v-slide-group>
+
+        <v-expand-transition>
+          <v-sheet
+            v-if="model != null"
+            color="grey lighten-4"
+            height="200"
+            tile
+          >
+            <v-row
+              class="fill-height"
+              align="center"
+              justify="center"
+            >
+              <h3 class="title">Selected {{ model }}</h3>
+            </v-row>
+          </v-sheet>
+        </v-expand-transition>
+      </v-sheet>   
+
+      <v-data-table
+        :headers="headers"
+        :items="desserts"
+        :items-per-page="5"
+        class=" mt-10"      
+      ></v-data-table>
+    
   </div>
+  
 </template>
 <script>
 import inputMoneyModal from '../components/inputMoneyModal';
@@ -81,7 +104,9 @@ export default {
         saves : [],
       justify: [
         'space-around',
-      ],        
+        
+      ], 
+      model: null,
     }),
     methods : {
         click : function (params) {
