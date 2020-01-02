@@ -49,10 +49,11 @@ export default {
       default: 'en-US'
     },
     idx : 0,
+    state : null,
   },
   data () {
     return {
-      numberValue: parseInt(this.$store.state.money[this.idx]) >= 0 ? parseInt(this.$store.state.money[this.idx]) : this.value ,
+      numberValue: (this.idx >= 0) ? parseInt(this.$store.state.modal_money[this.idx].cost) : this.value ,
       model: this.value,
       isMasked: true,
       thousandsSeparatorRegex: new RegExp(`\\${this.thousandsSeparator}`, 'g'),
@@ -102,18 +103,31 @@ export default {
   },
   watch: {
     numberValue (v) {
-      this.$store.commit('setMoney', { idx:this.idx ,value : v});
+      if(this.idx >= 0) this.$store.commit('setMoney', { idx:this.idx ,value : v});
+      if(this.state == "addMoney") console.log(v);
     },
     value (v) {
       this.numberValue = v
       if (!this.$refs.field.isFocused) {
         this.format()
       }
-    }
+    },
+    fetchFlag(newV, oldV){
+      console.log("fetch currency");
+      this.numberValue = 0;
+      this.model = 0;
+    },
+    
   },
   created () {
     this.format()
+  },
+  computed : {
+    fetchFlag(){
+      return this.$store.state.fetch_flag; 
+    }
   }
+
 }
 </script>
 

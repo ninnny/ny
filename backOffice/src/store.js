@@ -5,14 +5,20 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    money : [
-      0,
-      0
-    ]
+    money: { title: "", cost: 0 }, 
+    modal_money : [
+      { title : "", cost : 0},
+      { title : "", cost : 0}
+    ],
+    bank : [],
+    fetch_flag : false,
   },
   mutations: {
     setMoney(state, obj) {
-      Vue.set(state.money, obj.idx, obj.value);
+      this.state.modal_money[obj.idx].cost = obj.value;
+    },
+    setTitle(state, obj) {
+      this.state.modal_money[obj.idx].title = obj.title;
     },
   },
   actions: {
