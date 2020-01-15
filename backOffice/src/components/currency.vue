@@ -50,6 +50,7 @@ export default {
     },
     idx : 0,
     state : null,
+    
   },
   data () {
     return {
@@ -104,7 +105,8 @@ export default {
   watch: {
     numberValue (v) {
       if(this.idx >= 0) this.$store.commit('setMoney', { idx:this.idx ,value : v});
-      if(this.state == "addMoney") console.log(v);
+      if(this.state == "addMoney") this.$store.addCatMoney = v;
+      if(this.state == "addCat") this.$store.state.newCat_money.cost = v;
     },
     value (v) {
       this.numberValue = v
@@ -113,7 +115,7 @@ export default {
       }
     },
     fetchFlag(newV, oldV){
-      console.log("fetch currency");
+      // console.log("fetch currency");
       this.numberValue = 0;
       this.model = 0;
     },

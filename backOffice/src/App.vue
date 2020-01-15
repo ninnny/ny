@@ -1,5 +1,6 @@
 <template>
   <v-app>
+     
     <navi></navi>
       <v-content>
         <v-container>
@@ -31,6 +32,7 @@ export default {
 
 /* Default Style */
 *    	  	{margin:0; padding:0; }
+*:focus { outline:none; }
 html, body	{width:100%;height:100%;-webkit-font-smoothing:antialiased}
 body		{
     background-color:#fff;
@@ -284,4 +286,32 @@ select		{width:100px; font-size:12px; height:20px; padding:2px 0 0 4px;}
 .w100p   {width:100%;}
 .h100p   {height:100%;} 
 
+.btn{
+  height: 40px;
+  border-radius: 5px;
+  line-height: 40px;
+}
+.btn:active{
+  background: darkcyan;
+}
+.btn-block{
+  width: 100%;
+}
+.btn-outline{
+  border: 1px solid;
+}
+.btn-blue{
+  background: #08378c;
+  color: #fff;
+}
+.btn-clear{
+  background: #fff;
+  
+}
+.btn-half{
+  width: 50%;
+}
+.bt-1{
+  border-top: 1px solid #e9e9e9;
+}
 </style>

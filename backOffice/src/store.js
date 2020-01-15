@@ -10,6 +10,8 @@ export default new Vuex.Store({
       { title : "", cost : 0},
       { title : "", cost : 0}
     ],
+    newCat_money: { title: "", cost: 0 },
+    addCatMoney : 0,
     bank : [],
     fetch_flag : false,
   },

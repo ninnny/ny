@@ -25,7 +25,7 @@
               </v-col>
         
             </v-row>
-            <rowMoneyCom idx =0 />
+            <rowMoneyCom idx =0    />
             <rowMoneyCom idx =1 />
             <v-row>
               <v-col cols="12" sm="6" md="6"  >
@@ -36,8 +36,8 @@
         </v-card-text>
         <v-card-actions>
           <div class="flex-grow-1"></div>
-          <v-btn color="blue darken-1" text @click="close">Close</v-btn>
-          <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+          <v-btn color="blue darken-1" text @click="close">닫기</v-btn>
+          <v-btn color="blue darken-1" text @click="save">저장</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -75,7 +75,7 @@ export default {
     // });
 
 
-    console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+    // console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
 
 
   },
@@ -103,11 +103,11 @@ export default {
   methods :{
     save(){
       // console.log(this.title);
-      // console.log(this.$store.state.modal_money);
+      console.log(this.$store.state.modal_money);
       // console.log(this.totalmoney);
       let save_cat = this.$store.state.modal_money
 
-      console.log(save_cat);
+      // console.log(save_cat);
 
       _.remove(save_cat,(n)=>{
         return n.cost == 0;
@@ -130,7 +130,7 @@ export default {
           updatetime: moment().format('YYYY-MM-DD HH:mm:ss')
         }).then(()=>{
           this.$store.state.fetch_flag = true;
-          console.log(this.$store.state.fetch_flag);
+          // console.log(this.$store.state.fetch_flag);
           this.title = "";
           this.$store.state.modal_money = [
             { title : "", cost : 0},

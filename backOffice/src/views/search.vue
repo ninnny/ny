@@ -5,19 +5,32 @@
                 <div class="tr">
                     <div class="th">조회계좌</div>
                     <div class="td">
-                        <v-select
-                            label="계좌를 선택하세요"
-                            dense
-                            outlined
-                            
-                        ></v-select>
+                        <!-- <div class="account-select" > -->
+                            <v-select
+                                placeholder="계좌를 선택하세요"
+                                dense
+                                outlined
+                                :items=list
+                                hide-details
+                                height=5
+                            ></v-select>
+                        <!-- </div> -->
                     </div>
                 </div>
                 <div class="tr">
                     <div class="th">조회기간</div>
-                    <div class="td calendar">
-                        <calendar/>~<calendar/> 넓이조절 =ㅅ=
+                    <div class="td">
+                         <div class="btn-snake mb-3">
+                            <button class="">오늘</button>
+                            <button class="">1주일</button>
+                            <button class="">1개월</button>
+                            <button class="">3개월</button>
+                        </div>                             
+                        <div class="calendar">
+                            <calendar/>~<calendar/>
+                        </div>                       
                     </div>
+
                 </div>
                 <div class="tr">
                     <div class="th">조회내용</div>
@@ -27,8 +40,7 @@
                 </div>
             </div>
             <div class="search-btn">
-                <button>검색</button>
-                <button>초기화</button>
+                <button class="btn btn-blue">검색</button>
             </div>
         </div>
         <history/>
@@ -47,11 +59,15 @@ import history from '../components/history';
       history
       
     },
+    data: () => ({
+      list: [1,2,3] 
+    }),
 
     }
 
 
 </script>
+
 <style scoped>
 
     .option{
@@ -100,16 +116,38 @@ import history from '../components/history';
         border-radius: 3px;
         box-sizing: border-box;
         color: #383a42 ;
-
     }
     .search-btn{
-        width: 100%;
-        height: 60px;
+        padding: 8px;
         text-align: center;
-        line-height: 60px;
         background: #f0f0f3;
     }
-    .td.calendar .v-input{
-        width: 30%;
+    .search-btn button{
+        width: 150px;
     }
+    .calendar{
+        width: 50%;
+        display: flex;
+    }
+    .btn-snake{
+        height: 40px;
+        width: 50%;
+        border-radius: 3px;
+        border: 1px solid #c2c2c2;
+        display: flex;
+        justify-content: space-around;
+    }
+    .btn-snake button{
+        color: #333;
+        width: 25%;
+        border-right: 1px solid #c2c2c2;
+    }
+    .btn-snake button:active{
+        background: #efedff;
+    }
+    .btn-snake button:last-child{
+        border-right: none;
+    }
+
+    
 </style>

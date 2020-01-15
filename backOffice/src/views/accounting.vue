@@ -24,14 +24,43 @@
                 <v-card-title>{{ v.title }} </v-card-title>
                 <v-card-text>{{ v.totalcost }} </v-card-text>
               </div>
-              <div class="btn-part">
-                <v-btn tile large outlined>조회</v-btn>  
+              <div class="btn-group bt-1">
+                <button class="btn btn-clear btn-half" @click="onOff(idx)">상세보기</button>
+                <button class="btn btn-clear btn-half" @click="goHis()">조회</button>
               </div>
+              
             </v-card>
           </v-slide-item>
           
         </v-slide-group>
-        
+        <!-- <v-expand-transition>
+          <v-sheet
+            v-if="model != null"
+            height="auto"
+            tile
+            >
+              <v-slide-group
+                class="pa-4"
+                show-arrows
+              >
+                <v-slide-item v-for="item in toggleModel.cat" :key="item.title">
+                  <v-card
+                    class="ma-4"
+                    height="200"
+                    width="200"
+                  >
+                  <div class="itemTitle">{{ item.title }}</div>
+                  <div class="itemCost">{{ item.cost }}</div>
+                    <div class="btn-group">
+                      <addMoneyModal/>
+                      <button @click='delCat(toggleModel, item)'> 삭제 </button> 
+                    </div>
+
+                  </v-card>
+                </v-slide-item>
+              </v-slide-group>
+            </v-sheet>          
+        </v-expand-transition> -->
         <v-expand-transition>
           <v-sheet
             v-if="model != null"
@@ -40,37 +69,20 @@
             tile
           >
           <div class="detailList">
-            <div class="listItem" v-for="item in toggleModel.cat" :key="item.title">
-              <div class="itemTitle">{{ item.title }}</div>
+            <div class="listItem mr-3" v-for="(item, idx) in toggleModel.cat" :key="item.title" >
+              <div class="itemTitle mt-10">{{ item.title }}</div>
               <div class="itemCost">{{ item.cost }}</div>
               <div class="btn-group">
-                <addMoneyModal/>
-                <button @click='delCat(toggleModel, item)'> 삭제 </button> 
+                <addMoneyModal :target=model :idx=idx  />
+                <!-- <outMoneyModal/> -->
+                <!-- <div class="more"><i class="fas fa-ellipsis-v"></i></div> -->
+                <!-- <button @click='delCat(toggleModel, item)'> 삭제 </button>  -->
               </div>
             </div>
+            <div>
+              <addCategory :target=model  />
+            </div>
           </div>
-            <!-- <v-simple-table>
-              <template v-slot:default>
-                <thead>
-                  <tr>
-                    <th class="text-left">제목</th>
-                    <th class="text-left">돈</th>
-                    <th class="text-left">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="item in toggleModel.cat" :key="item.title">
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.cost }} </td>
-                    <td>
-                      <addMoneyModal/>
-                      <button @click='delCat(toggleModel, item)'> 삭제 </button> 
-                    </td>
-                    
-                  </tr>
-                </tbody>
-              </template>
-            </v-simple-table> -->
 
           </v-sheet>
         </v-expand-transition>
@@ -91,6 +103,7 @@
 <script>
 import inputMoneyModal from '../components/inputMoneyModal';
 import addMoneyModal from '../components/addMoneyModal';
+import addCategory from '../components/addCategory';
 // import createListModal from '../components/createListModal';
 import { verify } from 'crypto';
 import _ from 'lodash';
@@ -101,7 +114,7 @@ export default {
     components: {
       inputMoneyModal,
       addMoneyModal,
-      
+      addCategory
     },
     created : function(){
         this.fetchBank(true);
@@ -118,6 +131,7 @@ export default {
       ], 
       model: null,
       toggleModel: null,
+      newCat: null,
     }),
     computed : {
       bank (){
@@ -129,7 +143,7 @@ export default {
     },
     watch : {
       fetchFlag(newV, oldV){
-        console.log("fetch");
+        // console.log("fetch");
       },
     },
     methods : {
@@ -164,15 +178,15 @@ export default {
             let k = {...this.save};
             
             this.saves.push(k);
-            console.log(this.saves);
+            // console.log(this.saves);
         },
         fetchBank : function (flag){
           if(flag){
             let self = this;
             this.$database.ref('bank').once('value',function(snapshot) {
             var rows = [];
-            console.log(snapshot.val());
-            console.dir(Array.isArray(snapshot.val()));
+            // console.log(snapshot.val());
+            // console.dir(Array.isArray(snapshot.val()));
             // if(Array.isArray(snapshot.val())){
             //   rows.push(snapshot.val());
             // }else{
@@ -182,9 +196,10 @@ export default {
             //       rows.push(childData);
             //   });
             // }
-            
+        
             self.$store.state.bank = snapshot.val();
-            console.log(self.$store.state.bank);
+            // console.log(self.$store.state.bank);
+            self.toggleModel = self.$store.state.bank[self.model];
             self.$store.state.fetch_flag = false;
           })
           } 
@@ -195,9 +210,12 @@ export default {
           }else{
             this.model = idx;
             this.toggleModel = this.$store.state.bank[idx];
-            console.log(this.toggleModel);
+            // console.log(this.toggleModel);
           }
           
+        },
+        goHis(){
+          this.$router.push('search')
         },
         deleteAccount(idx){
           console.log(this.$store.state.bank[idx]);
@@ -230,9 +248,10 @@ export default {
 
   }
   .slide-box{
-    height 199px;
-    width: 200px;
-    padding-top: 30px;
+    position: relative;
+    height: 170px;
+    width: 175px;
+    padding-top: 12px;
     box-shadow: none;
     box-sizing: border-box;
     border-right:1px solid #e9e9e9 !important;
@@ -240,10 +259,10 @@ export default {
   .v-application .white{
     border-right: 1px solid #e3e3e3 !important;
   }
-  .v-card__title{
+  .v-card__title,.itemTitle{
     font-size: 1rem;
   }
-  .v-card__text{
+  .v-card__text,.itemCost{
     font-size: 1.3rem;
   }
   .toolbar{
@@ -257,7 +276,6 @@ export default {
     justify-content: space-between;
   }
 
-
   .btn-part{
     width : 100%;
     position: absolute;
@@ -267,6 +285,7 @@ export default {
    .btn-part button{
      width: 100%;
      background : none;
+     border-radius: 6px;
    }
    .main-info{
      cursor: pointer;
@@ -279,26 +298,35 @@ export default {
    }
   .detailList{
     width: 100%;
+    display: -webkit-box;
     background: #f1f1f1;
     padding: 10px;
     box-sizing: border-box;
   }
   .detailList .listItem{
-    display: flex;
-    justify-content : space-around;
-    
+        position: relative;
     background: #fff;
-    margin: 0 auto;
-    height: 65px;
-    line-height: 60px;
+    width: 180px;
+    height: 180px;
     padding: 5px;
     border: 1px solid #d0d0d0;
-    border-radius: 3px;
+    border-radius: 13px;
     margin-bottom: 5px;
   }
   .detailList .listItem .itemTitle{
     float: left;
     width: 200px;
   }
-
+  .listItem.add{
+    background: rgba(0,0,0,0.1);
+    border: 1px dashed #8c8c8c;;
+  }
+  .btn-group{
+    position: absolute;
+    width: 95%;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+ 
 </style>
